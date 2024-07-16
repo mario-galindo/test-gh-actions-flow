@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       releaseType:
-        description: 'Where to release (staging or prod)?'     
+        description: 'Where to release (dev | staging | prod)?'     
         required: true
         default: 'dev'
 
@@ -17,7 +17,8 @@ jobs:
     environment: 
       name: Develop
       url: https://dotnetmona-dev.azurewebsites.net/
-    
+    if: ${{ github.event_name == 'push' || github.event.inputs.releaseType == 'dev' }}
+
     runs-on: ubuntu-latest
 
     steps:
@@ -28,8 +29,8 @@ jobs:
     environment: 
       name: Staging
       url: https://dotnetmona-staging.azurewebsites.net/
-    needs: [dev]
-    
+    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.releaseType == 'staging' }}
+
     runs-on: ubuntu-latest
 
     steps:
@@ -40,8 +41,8 @@ jobs:
     environment: 
         name: Production
         url: https://dotnetmona.azurewebsites.net/
-    needs: [staging]
-        
+    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.releaseType == 'prod' }}
+
     runs-on: ubuntu-latest
 
     steps:
