@@ -1,0 +1,36 @@
+name: Publish
+
+# Run on new release creation or when manually triggered
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      releaseType:
+        description: 'Where to release (staging or prod)?'     
+        required: true
+        default: 'prod'
+
+jobs:
+  staging:
+    name: Deploy to Staging
+    environment: 
+      name: Staging
+      url: https://dotnetmona-staging.azurewebsites.net/
+    
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+  prod:
+    name: Deploy to Prod
+    environment: 
+        name: Prod
+        url: https://dotnetmona.azurewebsites.net/
+    needs: [staging]
+        
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
