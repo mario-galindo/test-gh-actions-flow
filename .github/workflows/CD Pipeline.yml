@@ -1,4 +1,4 @@
-name: Publish
+name: Continuous Delivery Pipe
 
 # Run on new release creation or when manually triggered
 on:
