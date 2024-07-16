@@ -1,10 +1,17 @@
-name: .NET Core CI/CD
+name: CI
 
 on:
   push:
     branches:
       - main
-      - develop
+      - dev
+      - 'release/*'
+      - 'hotfix/*'
+      - 'feature/*'
+  pull_request:
+    branches:
+      - main
+      - dev
       - 'release/*'
       - 'hotfix/*'
       - 'feature/*'
@@ -12,11 +19,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        environment: [development, staging, production]
-
+    
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -24,16 +27,10 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '8.0.x' # Specify your .NET Core version
-
-    - name: Restore dependencies
-      run: dotnet restore
+        dotnet-version: '8.0.x'
 
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --configuration Release
 
     - name: Test
-      run: dotnet test --no-build --verbosity normal
-
-    - name: Publish
-      run: dotnet publish --configuration Release --output ./output
+      run: dotnet test
