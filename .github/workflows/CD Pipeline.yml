@@ -1,4 +1,4 @@
-name: Continuous Delivery Pipe
+name: CD Pipeline
 
 on:
   workflow_dispatch:
