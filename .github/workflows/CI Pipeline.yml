@@ -38,7 +38,7 @@ jobs:
     url: https://dotnetmona-dev.azurewebsites.net/
   if: ${{ github.event_name == 'push' || github.ref == 'refs/heads/dev' }}
 
-  runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
-  steps:
-  - uses: actions/checkout@v4
+    steps:
+    - uses: actions/checkout@v4
