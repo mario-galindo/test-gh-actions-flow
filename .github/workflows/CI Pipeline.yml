@@ -6,17 +6,11 @@ on:
       - 'main'
       - 'dev'
       - 'uat'
-      - 'release/*'
-      - 'hotfix/*'
-      - 'feature/*'
   pull_request:
     branches:
       - 'main'
       - 'dev'
       - 'uat'
-      - 'release/*'
-      - 'hotfix/*'
-      - 'feature/*'
 
 jobs:
   build:
@@ -36,3 +30,15 @@ jobs:
 
     - name: Test
       run: dotnet test
+  
+  deploy:
+  name: Deploy to Develop
+  environment: 
+    name: Develop
+    url: https://dotnetmona-dev.azurewebsites.net/
+  if: ${{ github.event_name == 'push' || github.ref == 'refs/heads/dev' }}
+
+  runs-on: ubuntu-latest
+
+  steps:
+  - uses: actions/checkout@v4

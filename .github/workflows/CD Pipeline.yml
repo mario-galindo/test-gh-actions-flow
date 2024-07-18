@@ -1,31 +1,16 @@
 name: Continuous Delivery Pipe
 
 on:
-  push:
-    branches:
-      - 'dev'
   workflow_dispatch:
     inputs:
       releaseType:
-        description: 'Where to release (dev | staging | prod)?'     
+        description: 'Where to release (stage or prod)?'     
         required: true
-        default: 'dev'
+        default: 'stage'
 
 jobs:
-  dev:
-    name: Deploy to Develop
-    environment: 
-      name: Develop
-      url: https://dotnetmona-dev.azurewebsites.net/
-    if: ${{ github.event_name == 'push' || github.event.inputs.releaseType == 'dev' }}
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
-
-  staging:
-    name: Deploy to Staging
+  stage:
+    name: Deploy to Stage
     environment: 
       name: Staging
       url: https://dotnetmona-staging.azurewebsites.net/
