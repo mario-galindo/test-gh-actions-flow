@@ -38,7 +38,7 @@ jobs:
       name: Develop
       url: https://dotnetmona-dev.azurewebsites.net/
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/dev' }}
-    needs: build
+    needs: [build]
 
     runs-on: ubuntu-latest
 
